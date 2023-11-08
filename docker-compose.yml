@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  web:
+    build: 
+      context: .  #Указывается путь к докер файлу сервиса внутри нашего репозитория
+      dockerfile: Dockerfile #Сам файл
+      target: dev #Какой именно этап FROM в Dockerfile хотим применить
+    environment:  
+      API_SERVER_ADDR: ":4040"
+      # DATABASE_URL: postgres://postgres@db/rating?sslmode=disable  #сейчас не используется
+    ports:
+      - 4040:4040
+    volumes:
+      - .:/app
+    links: #связывает контейнер app контейнером db
+      - db
+    depends_on: #ожидаем запуска образа базы
+      - db
+  db:
+    # image: postgres:14-bullseye #последняя 14.9
+    image: postgres:latest
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "critic"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "rating"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migrate: &basemigrate
+    profiles: ["tools"]
+    image: migrate/migrate
+    entrypoint: "migrate -database 'postgresql://critic:1234@db/rating?sslmode=disable' -path /tmp/migrations"
+    command: up
+    links:
+    - db
+    volumes:
+    - ./migrations:/tmp/migrations
+
+  create-migration:
+    <<: *basemigrate
+    entrypoint: "migrate create -dir /tmp/migrations -ext sql"
+    command: ""
+
+volumes:
+  postgres_data:
