@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -17,20 +18,18 @@ type Manga struct {
 	Rating      float64            `json:"rating" validate:"required"`
 	Start_date  pgtype.Timestamptz `json:"start_d" validate:"required"`
 	Finish_date pgtype.Timestamptz `json:"finish_d"`
-	Status      pgtype.Text        `json:"status,omitempty"`
+	// Status      pgtype.Text        `json:"status,omitempty"`
 	// Img         pgtype.Text        `json:"img,omitempty"`
 }
 
 // задаем значения по умолчанию переопределив unmarshal
 // !! переопределение начинает игнорировать изночальные условие decoder.DisallowUnknownFields()
-
 func (m *Manga) UnmarshalJSON(text []byte) error {
 	type manga Manga
 	opts := manga{
-		Status: pgtype.Text{String: "continues", Valid: true},
-		// 	Title_en:    storagetype.Text{String: "zxc", Valid: true},
 		// 	Start_date:  storagetype.Timestamptz{Time: time.Date(2009, 11, 17, 20, 34, 58, 651387237, time.UTC), Valid: true},
-		// 	Finish_date: storagetype.Timestamptz{Time: time.Now(), Valid: true},
+		Finish_date: pgtype.Timestamptz{Time: time.Now(), Valid: true},
+		// Status: pgtype.Text{String: "continues", Valid: true},
 	}
 
 	if err := json.Unmarshal(text, &opts); err != nil {

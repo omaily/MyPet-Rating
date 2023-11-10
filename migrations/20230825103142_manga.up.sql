@@ -14,7 +14,6 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 -- SET default_table_access_method = heap;
 
 CREATE TABLE IF NOT EXISTS manga(
-    -- id UUID PRIMARY KEY gen_random_uuid(),
     id BIGINT primary key generated always as identity,
     title VARCHAR (100) NOT NULL,
     title_en VARCHAR (100) NOT NULL,
@@ -22,8 +21,6 @@ CREATE TABLE IF NOT EXISTS manga(
     rating numeric(4,2) NOT NULL,
     start_d DATE NOT NULL,
     finish_d DATE
-    -- status
-    -- img
 );
 
 INSERT INTO manga (title, title_en, author, rating, start_d) VALUES

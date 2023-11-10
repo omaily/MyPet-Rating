@@ -15,7 +15,6 @@ import (
 )
 
 func (s *APIServer) readObj() http.HandlerFunc {
-	// func (s *APIServer) ReadObj(rate ratingI) http.HandlerFunc {
 	return func(write http.ResponseWriter, request *http.Request) {
 		retuenObjects, err := s.storage.ReadAllManga(request.Context())
 		if err != nil {

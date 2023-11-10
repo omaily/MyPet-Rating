@@ -34,8 +34,8 @@ func (pg *Storage) ReadAllManga(ctx context.Context) ([]model.Manga, error) {
 // Объемные//Массовые вставки через pgx.Batch, pgx.BatchResult
 // Показывает из за какой строки произошла ошибка, также возвращает присвоенные успешным строкам id
 func (pg *Storage) BulkInsertManga(ctx context.Context, manga map[string]model.Manga) ([]int, error) {
-	query := `INSERT INTO manga (title, title_en, author, rating, start_d, finish_d, status)
-		VALUES (@title, @title_en, @author, @rating, @start_date, @finish_date, @status)
+	query := `INSERT INTO manga (title, title_en, author, rating, start_d, finish_d)
+		VALUES (@title, @title_en, @author, @rating, @start_date, @finish_date)
 		RETURNING id;`
 
 	batch := &pgx.Batch{}
@@ -74,7 +74,7 @@ func (pg *Storage) BulkInsertManga(ctx context.Context, manga map[string]model.M
 func (pg *Storage) CopyInsertManga(ctx context.Context, manga map[string]model.Manga) error {
 
 	entries := [][]any{}
-	columns := []string{"title", "title_en", "author", "rating", "start_d", "finish_d", "status"}
+	columns := []string{"title", "title_en", "author", "rating", "start_d", "finish_d"}
 	tableName := "manga"
 
 	for _, title := range manga {
