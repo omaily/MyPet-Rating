@@ -1,4 +1,4 @@
-module gitlab.com/oldmas/api-protobuf
+module gitlab.com/oldmas/mypet-rating
 
 go 1.20
 

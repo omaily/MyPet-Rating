@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 
 	"github.com/urfave/cli/v2"
-	"gitlab.com/oldmas/api-protobuf/apiserver"
-	"gitlab.com/oldmas/api-protobuf/config"
-	"gitlab.com/oldmas/api-protobuf/storage"
+	"gitlab.com/oldmas/mypet-rating/config"
+	apiserver "gitlab.com/oldmas/mypet-rating/internal/app"
+	storage "gitlab.com/oldmas/mypet-rating/internal/database"
 	"golang.org/x/exp/slog"
 )
 
