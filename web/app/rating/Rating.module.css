@@ -1,0 +1,23 @@
+.background {
+  background-image: url("../../img/1672248167_kalix-club-p-katana-art-instagram-50.jpg");
+  background-size: 100%;
+  position: fixed;  
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  color: wheat;
+  backdrop-filter: blur(5px);
+  /* position: relative; */
+  /* z-index: 2; */
+}
+
+.grid {
+  margin-top: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+} 

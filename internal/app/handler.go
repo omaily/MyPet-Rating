@@ -24,9 +24,6 @@ func (s *APIServer) readObj() http.HandlerFunc {
 		if err != nil {
 			s.log.Info("failed Marshal struct manga", logErr(err))
 		}
-		// for _, Obj := range retuenObjects {
-		// 	fmt.Println(Obj.Title, Obj.Rating, Obj.Start_date.Time.Format("2006-01-02"), Obj.Finish_date.Time.Format("2006-01-02"), Obj.Status)
-		// }
 		write.WriteHeader(200)
 		_, errr := write.Write(json_data)
 		if err != nil {

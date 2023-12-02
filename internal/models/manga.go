@@ -19,7 +19,7 @@ type Manga struct {
 	Start_date  pgtype.Timestamptz `json:"start_d" validate:"required"`
 	Finish_date pgtype.Timestamptz `json:"finish_d"`
 	// Status      pgtype.Text        `json:"status,omitempty"`
-	// Img         pgtype.Text        `json:"img,omitempty"`
+	Img pgtype.Text `json:"img,omitempty"`
 }
 
 // задаем значения по умолчанию переопределив unmarshal

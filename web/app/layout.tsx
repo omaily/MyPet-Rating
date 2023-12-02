@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Router from 'next/link';
 import './globals.css';
 
 export default function RootLayout({
@@ -6,18 +7,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const manga = "Manga";
   return (
     <html lang='en'>
       <body>
         <main>
           <nav>
-            <Link href="/">
+            <Link href="/home">
               Home
             </Link>
-            <Link href="/notes">
-              Notes
+            <Link href={{pathname: `/rating`}}>
+              {manga}
             </Link>
-          </nav>
+            </nav>
           {children}
         </main>
       </body>

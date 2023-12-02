@@ -20,7 +20,8 @@ func (pg *Storage) ReadAllManga(ctx context.Context) ([]models.Manga, error) {
 	author,
 	rating, 
 	start_d as start_date,     
-	finish_d as finish_date
+	finish_d as finish_date,
+	img
     from  manga order by rating desc`
 	rows, err := pg.conn.Query(ctx, query)
 	if err != nil {

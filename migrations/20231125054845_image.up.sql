@@ -1,4 +1,4 @@
-ALTER TABLE manga ADD COLUMN img VARCHAR;
+ALTER TABLE manga ADD COLUMN img TEXT;
 
 UPDATE manga 
 SET img = 'https://i.pinimg.com/564x/9d/0f/f9/9d0ff91110c1ccc8a6a245bca403a15d.jpg' 
