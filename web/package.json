@@ -9,9 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@linaria/core": "^5.0.2",
+    "@linaria/react": "^6.0.0",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/material": "^5.14.20",
+    "@mui/x-data-grid": "^6.18.4",
+    "@types/react-data-grid": "^4.0.12",
+    "@wyw-in-js/babel-preset": "^0.2.2",
     "axios": "^1.6.2",
+    "date-fns": "^2.30.0",
     "next": "14.0.2",
     "react": "^18",
+    "react-data-grid": "^7.0.0-beta.41",
     "react-dom": "^18"
   },
   "devDependencies": {

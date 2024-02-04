@@ -1,62 +1,168 @@
-* {
-  box-sizing: border-box;
+@tailwind base;     
+@tailwind components;
+@tailwind utilities;
+
+*{
+    box-sizing: border-box;
+    font-size: 14px;
+    padding: 0px;
+    margin: 0px; 
 }
 
-html, body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif, Ubuntu;
+:root {
+    --padding: 1rem;
+    
+    /* --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif, Ubuntu;  */
+    /* --font-family: BLOKK, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; */
+    --font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+
+    --navbar-bg: rgba(25, 33, 51, 0.98);
+    --navbar-label: #c1c1c1;
+    --navbar-label-hover: #6795de;
+    --navbar-text: #a1a1a1;    
+
+    --back-ground: url("https://cdn.cloudflare.steamstatic.com/store/promo/winter2023/pattern-04_ice-sparkes.gif?v=2") center top repeat, rgb(15, 14, 18);
+    --back-content: #1e1e1e;
+
+    --text-header: #e2e2e2;
+    --text-paragraph:#ababab;
+    --text-emphasis:#e05353; 
+    --text-comment:#479266;
+    
+}
+
+@media (prefers-color-scheme:light) {
+    :root {
+        --surface: #e2e2e2;
+        --surface2: #fffffe;
+        --text-header: #303030;
+        --text-paragraph: #5e5e5e;
+    }  
 }
 
 body {
-  margin-left: auto;
-  margin-right: auto;
-  width: 65%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    
+    background: var(--back-ground);
+    font-family: var(--font-family);
 }
 
-h1, p{
-  margin-bottom: 0px;
-}
-a {
-  color: inherit;
-  text-decoration: none;
-  padding: 0;
-  margin: 0;
+header{
+    z-index: 10;
+    position: fixed;
+    align-items: flex-start;
+    align-self: flex-start;
+    width: 100%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    
+    background-color: var(--navbar-bg);
 }
 
 main {
-  min-height: 100vh;
-  padding: 1rem 0;
+    width: 1200px;
+    min-width: 320px;
+    margin: auto;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  align-items: flex-start;
+    display: flex;
+    justify-content: center;
 }
 
-input, textarea { 
-  display: block;
-  max-width: 300px;
-  margin: 0.5rem 0;
+@media (max-width: 1215px) {
+    main { width: 100%; }
 }
 
-button {
-  background-color: #000000;
-  border: none;
-  color: white;
-  padding: 0.5rem 2rem;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
+nav {
+    display: flex;
+    flex-direction: row;
+}
+
+nav a:first-child {
+    margin-left: 15px;
+}
+
+nav a:last-child {
+    margin-left: auto;
 }
 
 nav a {
-  font-weight: bold;
-  margin: 0 0.5rem;
-  text-decoration: underline;
+    z-index: 2;
+    font-weight: bold;
+    border-right: 1px solid #374280;
+    text-decoration: underline;
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+    outline-offset: 5px
+}
 
-  position: relative;
-  z-index: 2;
+nav div {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav div:hover {
+    background-color: rgb(249, 244, 255);
+    color: rgb(122, 84, 170);
+}
+
+
+h1, h2, h3, h4 {
+    color: var(--text-header);
+    font-weight: 300;  
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+ul {
+    padding: 5px 1.75rem;
+    margin: auto;
+}
+
+input, textarea {
+    max-width: 300px;
+    margin: 0.5rem 0;
+}
+
+input[type="date"] {
+    background-color: #ff7300;
+    margin-left: 30px;
+    padding: 10px;
+    position: relative;
+    font-family: "Roboto Mono", monospace;
+    color: #ffffff;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    border-radius: 5px;  
+}
+
+button {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 0.5rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;  
+    cursor: pointer;
+}
+
+p {
+    line-height: 1.5;
+    color: var(--text-paragraph);   
 }
