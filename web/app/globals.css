@@ -49,12 +49,20 @@ body {
     font-family: var(--font-family);
 }
 
+.mainContent{
+    width: 1200px;
+    min-width: 320px;
+    margin: auto;
+}
+
+@media (max-width: 1215px) {
+    .mainContent { width: 100%; }
+}
+
 header{
-    z-index: 10;
-    position: fixed;
-    align-items: flex-start;
-    align-self: flex-start;
     width: 100%;
+    z-index: 10;
+
     position: -webkit-sticky;
     position: sticky;
     top: 0px;
@@ -62,56 +70,33 @@ header{
     background-color: var(--navbar-bg);
 }
 
-main {
-    width: 1200px;
-    min-width: 320px;
-    margin: auto;
-
-    display: flex;
-    justify-content: center;
-}
-
-@media (max-width: 1215px) {
-    main { width: 100%; }
-}
-
-nav {
+.navigation {
     display: flex;
     flex-direction: row;
 }
 
-nav a:first-child {
-    margin-left: 15px;
-}
-
-nav a:last-child {
+.navigation a:last-child {
     margin-left: auto;
 }
 
-nav a {
-    z-index: 2;
+.navigation a {
     font-weight: bold;
-    border-right: 1px solid #374280;
-    text-decoration: underline;
     position: relative;
-    color: inherit;
     text-decoration: none;
     outline-offset: 5px
 }
 
-nav div {
+.navigation div {
     display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
 }
 
-nav div:hover {
+.navigation div:hover {
     background-color: rgb(249, 244, 255);
     color: rgb(122, 84, 170);
 }
-
 
 h1, h2, h3, h4 {
     color: var(--text-header);

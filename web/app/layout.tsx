@@ -1,10 +1,10 @@
 import Router from 'next/link';
 import type { Metadata } from 'next'
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 import './globals.css'
-import logoMTS from "../img/logo-eco.svg"
+// import logoMTS from "../img/logo-eco.svg"
 
 
 export const metadata: Metadata = {
@@ -17,9 +17,8 @@ export default function RootLayout({children}: {children: React.ReactNode;}) {
     return (
         <html lang='en'>
             <body>
-                
-                <header>
-                    <nav className="navigation">
+                <header className='border-b  dark:border-slate-100/10'>
+                    <nav className='mainContent navigation'  >
                         <Link href="/">
                             <div>Home</div>
                         </Link>
@@ -35,7 +34,7 @@ export default function RootLayout({children}: {children: React.ReactNode;}) {
                     </nav>    
                 </header>
                 
-                <main>
+                <main className='mainContent'>
                     {children}
                 </main>
                 

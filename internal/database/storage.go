@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"gitlab.com/oldmas/mypet-rating/config"
+	"github.com/omaily/MyPet-Rating/config"
 )
 
 type Storage struct {

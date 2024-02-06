@@ -11,8 +11,8 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"gitlab.com/oldmas/mypet-rating/config"
-	"gitlab.com/oldmas/mypet-rating/internal/database"
+	"github.com/omaily/MyPet-Rating/config"
+	"github.com/omaily/MyPet-Rating/internal/database"
 	"golang.org/x/exp/slog"
 )
 
@@ -71,6 +71,7 @@ func (s *APIServer) router() http.Handler {
 	router.Use(middleware.RequestID)
 	router.Use(middleware.Recoverer)
 	router.Use(New(s.log)) // переопределим встроенный middleware.Logger на свой
+	router.Use(CorsSettings().Handler)
 
 	router.Get("/manga", s.readObj())    // listItems
 	router.Post("/manga", s.insertObj()) // createItem

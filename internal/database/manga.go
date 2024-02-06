@@ -9,7 +9,7 @@ import (
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
-	"gitlab.com/oldmas/mypet-rating/internal/models"
+	"github.com/omaily/MyPet-Rating/internal/models"
 )
 
 func (pg *Storage) ReadAllManga(ctx context.Context) ([]models.Manga, error) {

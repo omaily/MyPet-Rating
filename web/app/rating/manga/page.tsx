@@ -12,25 +12,6 @@ type Manga = {
     img: string
 };
 
-// export function ListItem({manga}:any) {
-//   return (
-//     <Link href={`/rating/manga/${manga.id}`}>
-//       <div className={styles.block}>
-//         <img className={styles.image} src={manga.img}/>
-//         <div className={styles.description}>
-//           <div className={styles.title}>
-//             <p  >{manga.title}</p>
-//           </div>
-//           <div className={styles.metering}>
-//             <h1>{manga.rating}</h1>
-//           </div>
-//         </div>
-//       </div>
-//     </Link>
-//   );
-// }
-
-
 export const ListItem = ({manga}: {manga: Manga}): React.ReactElement => {
 
     return (
@@ -45,20 +26,22 @@ export const ListItem = ({manga}: {manga: Manga}): React.ReactElement => {
 
                 <div className="grow p-2 md:p-4">
                     <Link href={`/rating/manga/${manga.id}`}>
-                        <Headline title={manga.title} title_en={manga.title_en} rating={manga.rating}/>
+                        {headline(manga.title, manga.title_en, manga.rating)}
                     </Link>
+                    {additionalParam("Статус:", "издано")}
                     {additionalDate("Релиз:", manga.start_d, manga.finish_d)}
                     {additionalParam("Автор:", manga.author )}
+                    {additionalParam("Глав:", "29")}
+                    
                 </div>
 
             </article>
     )
 }
 
-const Headline = ({title, title_en, rating}:{title: string, title_en: string, rating:number}): React.ReactElement => (
+const headline = (title: string, title_en: string, rating:number): React.ReactElement => (
     <>
         <div className={"flex gap-4"}>
-            
             <h1 className={styles.titleName + " flex-auto text-lg font-semibold"}>
                 {title}
             </h1>
@@ -83,11 +66,11 @@ const Headline = ({title, title_en, rating}:{title: string, title_en: string, ra
 
 
 const additionalParam = (param1: string, param2: string): React.ReactElement  => (
-    <div className="flex flex-wrap font-medium ">
+    <div className="flex flex-wrap font-medium text-sm">
         <div className="dark:text-slate-500 pr-1">
             {param1}
         </div>
-        <div className="text-blue-300">
+        <div className="text-blue-300 ">
             {param2}
         </div>
     </div>
@@ -116,7 +99,7 @@ const additionalDate = (attribute: string, startDate: string , endDate: string |
             <div className="dark:text-slate-500 pr-1">
                 {attribute}
             </div>
-            <div className="text-blue-300">
+            <div className="text-blue-300 truncate ">
                 {releaseDate}
             </div>
         </div>

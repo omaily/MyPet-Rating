@@ -6,7 +6,7 @@ import (
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
-	"gitlab.com/oldmas/mypet-rating/internal/models"
+	"github.com/omaily/MyPet-Rating/internal/models"
 	"golang.org/x/exp/slog"
 )
 

@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/render"
 	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgtype"
-	"gitlab.com/oldmas/mypet-rating/internal/models"
+	"github.com/omaily/MyPet-Rating/internal/models"
 	"golang.org/x/exp/slog"
 )
 

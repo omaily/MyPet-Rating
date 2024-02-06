@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/omaily/MyPet-Rating/config"
+	apiserver "github.com/omaily/MyPet-Rating/internal/app"
+	storage "github.com/omaily/MyPet-Rating/internal/database"
 	"github.com/urfave/cli/v2"
-	"gitlab.com/oldmas/mypet-rating/config"
-	apiserver "gitlab.com/oldmas/mypet-rating/internal/app"
-	storage "gitlab.com/oldmas/mypet-rating/internal/database"
 	"golang.org/x/exp/slog"
 )
 
