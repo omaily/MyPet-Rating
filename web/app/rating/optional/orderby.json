@@ -1,0 +1,7 @@
+[
+    { "title": "По рейтингу", "value": "rating" },
+    { "title": "По алфавиту", "value": "alphabet" },
+    { "title": "Дата выхода", "value": "date" },
+    { "title": "Случайно", "value": "accidentally" },
+    { "title": "По Id", "value": "id" }
+]

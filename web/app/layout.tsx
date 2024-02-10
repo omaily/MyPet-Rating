@@ -14,6 +14,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode;}) {
     const manga = "Manga";
+    const f = ():string => {
+        return  "render layout"
+    }
+
     return (
         <html lang='en'>
             <body>
