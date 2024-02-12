@@ -8,7 +8,6 @@ import ListItem from './manga/page';
 
 import orderby from "./optional/orderby.json";
 
-
 type Manga = {
     id: string
     title: string
@@ -20,8 +19,8 @@ type Manga = {
     img: string
 };
 
-async function getList(filtr: string): Promise<Manga[]>  {
-    const resurs = `http://localhost:4000/manga`
+async function getList(filter: string): Promise<Manga[]>  {
+    const resurs = `http://localhost:4000/manga` + `?sort=${filter}`
     const res = await axios.get<Manga[]>(resurs,
         { headers: {Accept: 'application/json',},})
     return res.data;
@@ -69,7 +68,6 @@ export default function Rating() {
 
     return(
         <>
-            <h1>Test:{triage}</h1>
             <h1 className='px-6'>Список манги</h1>
             <p className=' px-6'>На данной странице отображена манга, отсортированная по рейтингу</p>
             
@@ -81,7 +79,6 @@ export default function Rating() {
                 </div>
 
                 <Aside />
-
             </div>
         </>
         

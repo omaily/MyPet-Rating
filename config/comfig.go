@@ -1,7 +1,7 @@
 package config
 
 import (
-	"log"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -35,10 +35,10 @@ var once sync.Once
 
 func MustLoad() *Config {
 	once.Do(func() {
-		log.Println("read application configuration")
+		slog.Info("read application configuration")
 		cfg = Config{}
 		if err := cleanenv.ReadConfig("config/local.yaml", &cfg); err != nil {
-			log.Fatal("cannot read config: %s", err)
+			slog.Error("cannot read config: %s", err)
 		}
 	})
 	return &cfg

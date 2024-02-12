@@ -6,7 +6,8 @@ import (
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/omaily/MyPet-Rating/internal/models"
+
+	"github.com/omaily/MyPet-Rating/api/modelRest"
 	"golang.org/x/exp/slog"
 )
 
@@ -72,7 +73,7 @@ func ValidateCustom(field reflect.Value) interface{} {
 }
 
 func ValidatePeriod(v validator.StructLevel) {
-	title := v.Current().Interface().(models.Manga)
+	title := v.Current().Interface().(modelRest.Manga)
 
 	if title.Finish_date.Valid && title.Finish_date.Time.Before(title.Start_date.Time) {
 		v.ReportError(title.Start_date, "start_d", "Start_date", "period", "")

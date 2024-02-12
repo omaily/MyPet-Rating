@@ -11,17 +11,14 @@ import (
 
 type Storage struct {
 	conn *pgxpool.Pool
-	// conf *config.Storage
 }
 
-var (
-	pgInstance *Storage
-	pgOnce     sync.Once
-)
+var pgInstance *Storage
+var pgOnce sync.Once
 
 func NewStorage(ctx context.Context, cs *config.Storage) (*Storage, error) {
 	pgOnce.Do(func() {
-		pool, err := pgxpool.New(ctx, fmt.Sprintf("postgres://%s:%s@%s/%s" /*"postgres://%s:%s@%s:%v/%s"*/, (*cs).Role, (*cs).Pass, (*cs).Host /*(*cs).Port, */, (*cs).Database))
+		pool, err := pgxpool.New(ctx, fmt.Sprintf("postgres://%s:%s@%s/%s", (*cs).Role, (*cs).Pass, (*cs).Host /*(*cs).Port, */, (*cs).Database))
 		if err != nil {
 			fmt.Errorf("unable to create connection pool: %w", err)
 			return

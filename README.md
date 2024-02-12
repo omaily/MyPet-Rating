@@ -5,6 +5,6 @@
 - после скачивания проекта выполним команды 
 > docker compose build  
 > docker compose up  
->> docker compose   --profile tools run --rm migrate    
+>> docker compose --profile tools run --rm migrate    
 >> /*иначе web упадет потому что таблицы нет */  
 

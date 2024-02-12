@@ -9,7 +9,5 @@ storage:
   host: "db"
   port: 5432
   database: "rating"
-  # user: "postgres"
-  # pass: "postgres"
   user: "critic"
   pass: "1234"

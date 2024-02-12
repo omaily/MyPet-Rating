@@ -1,8 +1,8 @@
 version: "3.9"
 services:
   # web:
-  #   container_name: client-web
-  #   image: client-web
+  #   container_name: rating-web
+  #   image: rating-web
   #   build:
   #     # context: .
   #     dockerfile: Dockerfile
@@ -19,9 +19,9 @@ services:
     container_name: rating-app
     image: rating-app
     build: 
-      context: .  #Указывается путь к докер файлу сервиса внутри нашего репозитория
+      context: . #путь до докерфайла
       dockerfile: Dockerfile #Сам файл
-      target: dev #Какой именно этап FROM в Dockerfile хотим применить
+      target: dev #этап FROM в Dockerfile 
     restart: always
     environment:
       API_SERVER_ADDR: ":4000"
