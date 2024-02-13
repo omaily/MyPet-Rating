@@ -1,4 +1,4 @@
-build:
+launch:
 	protoc --go_out=. --go-grpc_out=. api/proto/manga.proto
 	sudo docker compose up --build
 	sudo docker compose --profile tools run --rm migrate up

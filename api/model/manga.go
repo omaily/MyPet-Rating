@@ -1,11 +1,18 @@
-package modelRest
+package model
 
 import (
+	"context"
 	"encoding/json"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
 )
+
+type MangaI interface {
+	ReadAllManga(context.Context, Manga) (string, error)
+	BulkInsertManga(context.Context, Manga) error
+	CopyInsertManga(ctx context.Context, manga map[string]Manga) error
+}
 
 type Manga struct {
 	Id       int         `json:"id,omitempty"`

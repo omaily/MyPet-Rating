@@ -9,32 +9,32 @@ import (
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
-	"github.com/omaily/MyPet-Rating/api/modelRest"
+	"github.com/omaily/MyPet-Rating/api/model"
 )
 
-func (pg *Storage) ReadAllManga(ctx context.Context) ([]modelRest.Manga, error) {
+func (pg *Storage) ReadAllManga(ctx context.Context) ([]model.Manga, error) {
 	query := `select 
-	id, 
-	title, 
-	title_en, 
-	author,
-	rating, 
-	start_d as start_date,     
-	finish_d as finish_date,
-	img
-    from  manga order by rating desc`
+		id, 
+		title,
+		title_en,
+		author,
+		rating, 
+		start_d as start_date,
+		finish_d as finish_date,
+		img
+		from  manga order by rating desc`
 	rows, err := pg.conn.Query(ctx, query)
 	if err != nil {
 		log.Fatal("error while executing query: ", err)
 	}
 	defer rows.Close()
 
-	return pgx.CollectRows(rows, pgx.RowToStructByName[modelRest.Manga])
+	return pgx.CollectRows(rows, pgx.RowToStructByName[model.Manga])
 }
 
 // Объемные//Массовые вставки через pgx.Batch, pgx.BatchResult
 // Показывает из за какой строки произошла ошибка, также возвращает присвоенные успешным строкам id
-func (pg *Storage) BulkInsertManga(ctx context.Context, manga map[string]modelRest.Manga) ([]int, error) {
+func (pg *Storage) BulkInsertManga(ctx context.Context, manga map[string]model.Manga) ([]int, error) {
 	query := `INSERT INTO manga (title, title_en, author, rating, start_d, finish_d)
 		VALUES (@title, @title_en, @author, @rating, @start_date, @finish_date)
 		RETURNING id;`
@@ -72,7 +72,7 @@ func (pg *Storage) BulkInsertManga(ctx context.Context, manga map[string]modelRe
 	return idRange, nil
 }
 
-func (pg *Storage) CopyInsertManga(ctx context.Context, manga map[string]modelRest.Manga) error {
+func (pg *Storage) CopyInsertManga(ctx context.Context, manga map[string]model.Manga) error {
 
 	entries := [][]any{}
 	columns := []string{"title", "title_en", "author", "rating", "start_d", "finish_d"}

@@ -13,8 +13,9 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/omaily/MyPet-Rating/config"
-	midORfid "github.com/omaily/MyPet-Rating/internal/app/myMiddleware"
+	controller "github.com/omaily/MyPet-Rating/internal/controller/manga"
 	"github.com/omaily/MyPet-Rating/internal/database"
+	"github.com/omaily/MyPet-Rating/internal/myMiddleware"
 )
 
 type APIServer struct {
@@ -49,12 +50,11 @@ func (s *APIServer) Start(logger *slog.Logger) error {
 	go func() {
 		slog.Info("starting server", slog.String("addres", s.conf.Address))
 		if err := ser.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			slog.Error("не маслает", slog.StringValue(err.Error()))
+			slog.Error("не маслает", slog.String("err", err.Error()))
 		}
 	}()
 
-	//другой вариант принимать сигнал стоп через канал для чтения
-	//в параметре функкции Start(stop <-chan struct{})
+	//другой вариант принимать сигнал стоп в параметре функкции Start(stop <-chan struct{})
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
@@ -69,19 +69,15 @@ func (s *APIServer) Start(logger *slog.Logger) error {
 func (s *APIServer) router(logger *slog.Logger) http.Handler {
 
 	router := chi.NewRouter()
+
 	router.Use(middleware.RequestID)
 	router.Use(middleware.Recoverer)
 
-	router.Use(midORfid.New(logger))            // переопределим встроенный middleware.Logger на свой
-	router.Use(midORfid.CorsSettings().Handler) // настройки правил доступа
+	router.Use(myMiddleware.New(logger))            // переопределим встроенный middleware.Logger на свой
+	router.Use(myMiddleware.CorsSettings().Handler) // настройки правил доступа
 
-	router.Get("/manga", s.readObj())    // listItems
-	router.Post("/manga", s.insertObj()) // createItem
-	router.HandleFunc("/", s.defaultRoute)
+	controller.HandlersGlobal(router, s.storage)
+	controller.HandlersSecure(router)
+
 	return router
-}
-
-func (s *APIServer) defaultRoute(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Hello World"))
 }
