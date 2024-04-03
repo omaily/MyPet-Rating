@@ -20,7 +20,7 @@ type Manga = {
 };
 
 async function getList(filter: string): Promise<Manga[]>  {
-    const resurs = `http://localhost:4000/manga` + `?sort=${filter}`
+    const resurs = `http://localhost:4000/api/manga/read` + `?order=${filter}`
     const res = await axios.get<Manga[]>(resurs,
         { headers: {Accept: 'application/json',},})
     return res.data;
@@ -53,9 +53,9 @@ export default function Rating() {
     }, [triage] );
 
     function Aside(): React.ReactElement{
-
         return (
-            <aside className='flex-none'>
+            // <aside className='flex-none'>
+            <aside className={styles.aside}>
                 <RadioGroup 
                     selected={triage}
                     name="filter"
@@ -68,11 +68,12 @@ export default function Rating() {
 
     return(
         <>
-            <h1 className='px-6'>Список манги</h1>
-            <p className=' px-6'>На данной странице отображена манга, отсортированная по рейтингу</p>
+            <h1>Список манги</h1>
+            <p>На данной странице отображена манга, отсортированная по рейтингу</p>
             
             <div className='flex'>
-                <div className={'grow px-6 py-4 ' + styles.grid}>
+                {/* <div className={'grow px-6 py-4 ' + styles.grid}> */}
+                <div className={styles.grid}>
                     {data?.map((manga: Manga) => ( 
                          <ListItem key={manga.id} manga={manga}/> 
                     ))}

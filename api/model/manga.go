@@ -8,10 +8,15 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Condition struct {
+	Name  string
+	Value []string
+}
+
 type MangaI interface {
-	ReadAllManga(context.Context, Manga) (string, error)
+	ReadAllManga(context.Context, []Condition) ([]Manga, error)
 	BulkInsertManga(context.Context, Manga) error
-	CopyInsertManga(ctx context.Context, manga map[string]Manga) error
+	CopyInsertManga(context.Context, map[string]Manga) error
 }
 
 type Manga struct {

@@ -19,6 +19,6 @@ func HandlersSecure(router *chi.Mux) {
 
 func work() http.HandlerFunc {
 	return func(write http.ResponseWriter, request *http.Request) {
-		render.JSON(write, request, answer.Ok("322"))
+		render.JSON(write, request, answer.Ok(322))
 	}
 }

@@ -8,7 +8,7 @@ migrate-create: ## создает новые файлы up-down manga.sql
 	sudo docker compose --profile tools run create-migration $(name)
 
 sh-app: ##подключится к контейнеру golang
-# при страрте 
+# при страрте
 	sudo docker compose run --rm --service-ports app bash
 # на горячую
 	sudo docker compose exec -it app bash	
@@ -20,7 +20,3 @@ rm:
 	sudo docker rm -vf $$(sudo docker ps -aq)
 	sudo docker rmi -f $$(sudo docker images -aq)
 	sudo docker volume rm $$(sudo docker volume ls -f dangling=true -q)
-cli: ##вызов аргументов в MAKEFILE:: make cli flag='start --env dev'
-	go build
-	go install 
-	api-protobuf $(flag) 

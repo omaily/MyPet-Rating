@@ -6,18 +6,6 @@ import (
 	"github.com/go-chi/render"
 )
 
-type InternalError struct{}
-
-func (m *InternalError) Error() string {
-	return "Internal error"
-}
-
-type AlreadyExistsError struct{}
-
-func (m *AlreadyExistsError) Error() string {
-	return "email address already exists"
-}
-
 type ErrResponse struct {
 	Err            error           `json:"-"`               // low-level runtime error
 	HTTPStatusCode int             `json:"-"`               // http response status code
@@ -40,17 +28,7 @@ func (e *ErrResponse) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func ErrReview(err error) render.Renderer {
-	switch err := err.(type) {
-	case *InternalError:
-		return ErrInternalServer(err)
-	case *AlreadyExistsError:
-		return ErrAlreadyExists(err)
-	default:
-		return ErrInvalidRequest(err)
-	}
-}
-func ErrValidaete(err error) *ErrResponse {
+func NewErrValidaete(err error) *ErrResponse {
 	return &ErrResponse{
 		Err:            err,
 		HTTPStatusCode: 400,
@@ -59,6 +37,9 @@ func ErrValidaete(err error) *ErrResponse {
 	}
 }
 
+// 1) Недоступный ресурс или URL.
+// 2) Неправильный формат запроса: отсутствие обязательных заголовков или параметров.
+// 3) Неверные данные в запросе: данные в запросе, не соответствуют ожидаемому формату.
 func ErrInvalidRequest(err error) render.Renderer {
 	return &ErrResponse{
 		Err:            err,
@@ -68,6 +49,8 @@ func ErrInvalidRequest(err error) render.Renderer {
 	}
 }
 
+// 1) Конфликт прав доступа.
+// 2) Если создоваемый обьект уже существует.
 func ErrAlreadyExists(err error) render.Renderer {
 	return &ErrResponse{
 		Err:            err,

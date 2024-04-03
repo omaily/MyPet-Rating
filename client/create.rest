@@ -1,0 +1,48 @@
+@host = localhost:4000
+// Access a Secured API Endpoint
+
+### GOOD
+POST http://{{host}}/api/manga/create HTTP/1.1
+content-type: application/json
+
+{
+    "1": {
+        "title": "тест",
+        "title_en": "test",
+        "author": "test", 
+        "rating": 5.35,
+        "start_d": "2021-02-18T0:00:00Z"
+    },
+    "2": {
+        "title": "тест",
+        "title_en": "test",
+        "author": "test", 
+        "rating": 3.14,
+        "start_d": "2021-02-18T0:00:00Z"
+    }
+}
+### FALL -- absent 'required' tag"
+POST http://{{host}}/api/manga/create HTTP/1.1
+content-type: application/json
+
+{
+    "1": {
+        "title": "тест",
+        "title_en": "test",
+        "author": "test", 
+        "rating": 5.35,
+        "start_d": "2021-02-18T0:00:00Z"
+    },
+     "2": {
+        "title": "тест",
+        "title_en": "test"
+    },
+    "3": {
+        "title": "тест",
+        "title_en": "test",
+        "author": "test", 
+        "rating": 5.35,
+        "start_d": "2021-02-18T0:00:00Z"
+    }
+}
+### 

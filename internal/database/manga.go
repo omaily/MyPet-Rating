@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
+	"log/slog"
 
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
@@ -12,20 +12,40 @@ import (
 	"github.com/omaily/MyPet-Rating/api/model"
 )
 
-func (pg *Storage) ReadAllManga(ctx context.Context) ([]model.Manga, error) {
-	query := `select 
-		id, 
-		title,
-		title_en,
-		author,
-		rating, 
-		start_d as start_date,
-		finish_d as finish_date,
-		img
-		from  manga order by rating desc`
+func sortingRules(condition []*model.Condition) string {
+
+	query := "order by rating desc"
+
+	for _, v := range condition {
+
+		if v.Name == "order" {
+			sortingOrder := "asc"
+			if v.Value[0] == "rating" { // Value[0] - потому что условий сортировки не может быть больше 1
+				sortingOrder = "desc"
+			}
+			query = fmt.Sprintf("%s %s %s", "order by", v.Value[0], sortingOrder)
+
+			slog.Debug("неверный фармат условий")
+		}
+	}
+
+	return query
+
+}
+
+func (pg *Storage) ReadAllManga(ctx context.Context, condition []*model.Condition) ([]model.Manga, error) {
+
+	query := `select id, title, title_en, author, rating, start_d as start_date, finish_d as finish_date, img from manga`
+	orderBy := sortingRules(condition)
+	// if err != nil {
+	// 	slog.Debug("неверный фармат условий", err)
+	// }
+
+	query = query + " " + orderBy
 	rows, err := pg.conn.Query(ctx, query)
 	if err != nil {
-		log.Fatal("error while executing query: ", err)
+		slog.Error("error while executing query:", err)
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -62,8 +82,8 @@ func (pg *Storage) BulkInsertManga(ctx context.Context, manga map[string]model.M
 		err := results.QueryRow().Scan(&id)
 		if err != nil {
 			var pgErr *pgconn.PgError
-			if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation { //ошибку уникальности полей
-				log.Printf("error field uniqueness %v", title.Title)
+			if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation { // ошибку уникальности полей
+				slog.Error("error field uniqueness ", title.Title)
 			}
 			return nil, fmt.Errorf("unable to insert row: %w", err)
 		}

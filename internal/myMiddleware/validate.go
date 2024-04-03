@@ -1,34 +1,22 @@
-package handler
+package myMiddleware
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
-	"net/http"
 	"reflect"
 	"strings"
 
-	"github.com/go-chi/render"
 	"github.com/go-playground/validator/v10"
-	"github.com/omaily/MyPet-Rating/api/model"
 	answer "github.com/omaily/MyPet-Rating/internal/controller/respons"
 )
 
-func parsingJSON(write http.ResponseWriter, request *http.Request) (*model.Manga, error) {
-	var manga model.Manga
-	decoder := json.NewDecoder(request.Body)
-	decoder.DisallowUnknownFields() //генерирует ошибку если в json есть поля которых нет в структуре
-	err := decoder.Decode(&manga)
-	if err != nil {
-		slog.Error("Failed to decode json", slog.String("err", err.Error()))
-		render.Render(write, request, answer.ErrInvalidRequest(errors.New("failed to decode json")))
-		return nil, err
-	}
-	return &manga, nil
+type Title interface {
+	// TestStruct() float64
 }
 
-func ValidateManga(manga *model.Manga) *answer.ErrResponse {
+func ValidateManga(title Title) *answer.ErrResponse {
+
 	validate := validator.New()
 	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
 		// Нужен только первый тег json (игнорируем omitempty)
@@ -39,7 +27,12 @@ func ValidateManga(manga *model.Manga) *answer.ErrResponse {
 		return name
 	})
 
-	err := validate.Struct(manga)
+	// // реализация не встроенных типов на тег rerequired
+	// validate.RegisterCustomTypeFunc(ValidateCustom, pgtype.Text{}, pgtype.Timestamptz{})
+	// // когда есть зависимость пары полей друг от друга в моем случае даты
+	// validate.RegisterStructValidation(ValidatePeriod, modelRest.Manga{})
+
+	err := validate.Struct(title)
 	if err != nil {
 		slog.Error("invalid request", err)
 		return ValidateError(err.(validator.ValidationErrors))
@@ -48,7 +41,7 @@ func ValidateManga(manga *model.Manga) *answer.ErrResponse {
 }
 
 func ValidateError(e validator.ValidationErrors) *answer.ErrResponse {
-	res := answer.ErrValidaete(errors.New("failed validete structure"))
+	res := answer.NewErrValidaete(errors.New("required fields are not specified"))
 	for _, err := range e { // ошибка может прийти не по одному полю
 		e := answer.ValidateError{
 			Field:     err.StructNamespace(),
