@@ -3,9 +3,11 @@ package handler
 import (
 	"log/slog"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
+	"github.com/omaily/MyPet-Rating/api/model"
 	answer "github.com/omaily/MyPet-Rating/internal/controller/respons"
 	"github.com/omaily/MyPet-Rating/internal/database"
 	"github.com/omaily/MyPet-Rating/internal/myMiddleware"
@@ -14,6 +16,7 @@ import (
 func HandlersGlobal(router *chi.Mux, storage *database.Storage) {
 	router.HandleFunc("/", defaultRoute())
 	router.Route("/api/manga", func(r chi.Router) {
+		r.Get("/read/{articleID}", readId(storage))
 		r.Get("/read", readParam(storage))
 		r.Get("/read/order={order:(id|title|rating|start_d)}", readRegular(storage))
 		r.Post("/create", create(storage))
@@ -26,6 +29,39 @@ func defaultRoute() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		writer.WriteHeader(http.StatusOK)
 		writer.Write([]byte("Hello World"))
+	}
+}
+
+func readId(storage *database.Storage) http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		logger := slog.With(
+			slog.String("HandlerFunc", "read"),
+		)
+
+		articleID := chi.URLParam(request, "articleID")
+		id, err := strconv.Atoi(articleID)
+		if err != nil {
+			slog.Error("Invalid Article ID", slog.String("err", err.Error()))
+			render.Render(writer, request, answer.ErrInvalidRequest(err))
+			return
+		}
+
+		title, arr, err := storage.ReadIdManga(request.Context(), id)
+		if err != nil {
+			logger.Error("failed collecting rows", slog.String("err", err.Error()))
+			render.Render(writer, request, answer.ErrInternalServer(err))
+			return
+		}
+
+		titleFull := struct {
+			model.Manga
+			Tags []string
+		}{
+			Manga: title,
+			Tags:  arr,
+		}
+
+		render.JSON(writer, request, titleFull)
 	}
 }
 

@@ -30,10 +30,7 @@ func (e *ErrResponse) Render(w http.ResponseWriter, r *http.Request) error {
 
 func NewErrValidaete(err error) *ErrResponse {
 	return &ErrResponse{
-		Err:            err,
-		HTTPStatusCode: 400,
-		StatusText:     "Invalid validate",
-		ErrorText:      err.Error(),
+		Err: err, HTTPStatusCode: 400, StatusText: "Invalid validate", ErrorText: err.Error(),
 	}
 }
 
@@ -42,10 +39,7 @@ func NewErrValidaete(err error) *ErrResponse {
 // 3) Неверные данные в запросе: данные в запросе, не соответствуют ожидаемому формату.
 func ErrInvalidRequest(err error) render.Renderer {
 	return &ErrResponse{
-		Err:            err,
-		HTTPStatusCode: 400,
-		StatusText:     "Invalid request",
-		ErrorText:      err.Error(),
+		Err: err, HTTPStatusCode: 400, StatusText: "Invalid request", ErrorText: err.Error(),
 	}
 }
 
@@ -53,18 +47,12 @@ func ErrInvalidRequest(err error) render.Renderer {
 // 2) Если создоваемый обьект уже существует.
 func ErrAlreadyExists(err error) render.Renderer {
 	return &ErrResponse{
-		Err:            err,
-		HTTPStatusCode: 409,
-		StatusText:     "Conflict response",
-		ErrorText:      err.Error(),
+		Err: err, HTTPStatusCode: 409, StatusText: "Conflict response", ErrorText: err.Error(),
 	}
 }
 
 func ErrInternalServer(err error) render.Renderer {
 	return &ErrResponse{
-		Err:            err,
-		HTTPStatusCode: 500,
-		StatusText:     "Internal problems",
-		ErrorText:      err.Error(),
+		Err: err, HTTPStatusCode: 500, StatusText: "Internal problems", ErrorText: err.Error(),
 	}
 }

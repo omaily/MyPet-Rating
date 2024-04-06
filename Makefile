@@ -9,9 +9,9 @@ migrate-create: ## создает новые файлы up-down manga.sql
 
 sh-app: ##подключится к контейнеру golang
 # при страрте
-	sudo docker compose run --rm --service-ports app bash
+# sudo docker compose run --rm --service-ports app bash
 # на горячую
-	sudo docker compose exec -it app bash	
+	sudo docker compose exec -it app bash
 
 sh-db: ##подключится к контейнеру postgre
 	sudo docker compose -f docker-compose.yml exec db psql -U critic -d rating

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"net/url"
 
@@ -24,6 +25,7 @@ func urlQueryParam(url url.Values) []*model.Condition {
 
 	for k, v := range url {
 		iterable := &model.Condition{Name: k, Value: v}
+		slog.Debug(iterable.Name, iterable.Value)
 		condition = append(condition, iterable)
 	}
 

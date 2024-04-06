@@ -14,7 +14,8 @@ import (
 
 func sortingRules(condition []*model.Condition) string {
 
-	query := "order by rating desc"
+	circs := ""
+	order := "order by rating desc"
 
 	for _, v := range condition {
 
@@ -23,26 +24,18 @@ func sortingRules(condition []*model.Condition) string {
 			if v.Value[0] == "rating" { // Value[0] - потому что условий сортировки не может быть больше 1
 				sortingOrder = "desc"
 			}
-			query = fmt.Sprintf("%s %s %s", "order by", v.Value[0], sortingOrder)
-
-			slog.Debug("неверный фармат условий")
+			order = fmt.Sprintf("%s %s %s", "order by", v.Value[0], sortingOrder)
 		}
 	}
-
-	return query
-
+	return circs + " " + order
 }
 
 func (pg *Storage) ReadAllManga(ctx context.Context, condition []*model.Condition) ([]model.Manga, error) {
 
-	query := `select id, title, title_en, author, rating, start_d as start_date, finish_d as finish_date, img from manga`
+	query := `select id, title, title_en, author, rating, start_d as start_date, finish_d as finish_date, img from manga `
 	orderBy := sortingRules(condition)
-	// if err != nil {
-	// 	slog.Debug("неверный фармат условий", err)
-	// }
 
-	query = query + " " + orderBy
-	rows, err := pg.conn.Query(ctx, query)
+	rows, err := pg.conn.Query(ctx, query+orderBy)
 	if err != nil {
 		slog.Error("error while executing query:", err)
 		return nil, err
@@ -50,6 +43,48 @@ func (pg *Storage) ReadAllManga(ctx context.Context, condition []*model.Conditio
 	defer rows.Close()
 
 	return pgx.CollectRows(rows, pgx.RowToStructByName[model.Manga])
+}
+
+func (pg *Storage) ReadIdManga(ctx context.Context, id int) (model.Manga, []string, error) {
+
+	var manga model.Manga
+	var tags []string
+	err := pg.conn.QueryRow(ctx,
+		`SELECT a.id,
+			a.title,
+			a.title_en,
+			a.author,
+			a.rating,
+			a.start_d AS start_date,
+			a.finish_d AS finish_date,
+			a.img,
+			ARRAY_AGG(c.title)
+		FROM manga AS a
+		LEFT JOIN taxonomies AS b
+			on a.id = b.title_id
+		LEFT JOIN tags AS c 
+			on b.tag_id = c.id
+		WHERE a.id = $1
+		GROUP BY a.id
+		ORDER BY a.id`, id,
+	).Scan(
+		&manga.Id,
+		&manga.Title,
+		&manga.Title_en,
+		&manga.Author,
+		&manga.Rating,
+		&manga.Start_date,
+		&manga.Finish_date,
+		&manga.Img,
+		&tags,
+	)
+
+	if err != nil {
+		fmt.Println("Error scanning row:", err)
+		return manga, nil, err
+	}
+
+	return manga, tags, nil
 }
 
 // Объемные//Массовые вставки через pgx.Batch, pgx.BatchResult
@@ -116,12 +151,12 @@ func (pg *Storage) CopyInsertManga(ctx context.Context, manga map[string]model.M
 	return nil
 }
 
-// ReadAll: 			GET  /items	получить все существующие элементы в списке
-// CopyFromManga:  		POST /items добавить элементы в список
-// BulkInsertManga: 	POST /items добавить элементы в список
+// ReadAll: 			GET  /items			 получить все существующие элементы в списке
+// ReadID: 				GET  /items/{itemId} получить один элемент из списка, используя его идентификатор
+// CopyFromManga:  		POST /items 		 добавить элементы в список
+// BulkInsertManga: 	POST /items 		 добавить элементы в список
 
-// TODO: GET 	/items/{itemId} получить один элемент из списка, используя его идентификатор
-// TODO: POST 	/items 			добавить 1 элемент в список
-// TODO: PUT 	/items/{itemId} обновить существующий элемент
-// TODO: PUT 	/items/{itemId} обновить multiple элементы
-// TODO: DELETE /items/{itemId}	удалить элемент из списка
+// TODO: 				POST 	/items 			добавить 1 элемент в список
+// TODO: 				PUT 	/items/{itemId} обновить существующий элемент
+// TODO: 				PUT 	/items/{itemId} обновить multiple элементы
+// TODO: 				DELETE 	/items/{itemId}	удалить элемент из списка

@@ -22,17 +22,9 @@ func (e *ResponseFetch) Render(w http.ResponseWriter, r *http.Request) error {
 
 func Ok(a ...int) *ResponseFetch {
 	// проверка на nil не нужна, так как поле id опционально
-	return &ResponseFetch{
-		Status:     "Ok",
-		StatusCode: 200,
-		Id:         a,
-	}
+	return &ResponseFetch{Status: "Ok", StatusCode: 200, Id: a}
 }
 
 func Bearer(token string) *ResponseFetch {
-	return &ResponseFetch{
-		Status:      "Ok",
-		StatusCode:  200,
-		AccessToken: token,
-	}
+	return &ResponseFetch{Status: "Ok", StatusCode: 200, AccessToken: token}
 }

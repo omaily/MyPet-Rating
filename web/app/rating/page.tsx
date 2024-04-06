@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import styles from './Rating.module.css';
-import RadioGroup from './optional/aside'
+import RadioGroup from './optional/aside';
 import ListItem from './manga/page';
 
 import orderby from "./optional/orderby.json";
@@ -38,7 +38,7 @@ export default function Rating() {
     useEffect(() => {
         const promise = getList(triage);
         promise.then((resolvedData) => {
-            const transformedData: Manga[] = resolvedData.map((item: any) => ({                
+            const transformedData: Manga[] = resolvedData.map((item: any) => ({
                 id: item.id,
                 title: item.title,
                 title_en: item.title_en,
@@ -56,14 +56,14 @@ export default function Rating() {
         return (
             // <aside className='flex-none'>
             <aside className={styles.aside}>
-                <RadioGroup 
+                <RadioGroup
                     selected={triage}
                     name="filter"
                     onChange={handlePeriodChange}
                     options={orderby}
                 />
             </aside>
-          );
+        );
     }
 
     return(

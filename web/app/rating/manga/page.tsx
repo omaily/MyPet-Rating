@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './Manga.module.css';
 
-type Manga = {
+export type Manga = {
     id: string
     title: string
     title_en: string

@@ -1,9 +1,9 @@
 import axios from 'axios';
-import styles from './Note.module.css'
+import styles from './Note.module.css';
 
 async function getNote(noteId: string){
     // const response = await axios.get(
-    //     `http://localhost:4000/manga/${noteId}`, 
+    //     `http://localhost:4000/manga/${noteId}`,
     //     { headers: {
     //       Accept: 'application/json',
     //     },})
@@ -17,7 +17,6 @@ async function getNote(noteId: string){
         courses: ['html', 'css', 'js'],
         wife: null
     }
-
     return response
 }
 

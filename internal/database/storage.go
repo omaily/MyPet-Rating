@@ -12,7 +12,6 @@ import (
 
 type Storage struct {
 	conn *pgxpool.Pool
-	// model.MangaI
 }
 
 var pgInstance *Storage
