@@ -1,6 +1,0 @@
-[
-    { "title": "По рейтингу", "value": "rating" },
-    { "title": "По алфавиту", "value": "title" },
-    { "title": "Дата выхода", "value": "start_d" },
-    { "title": "По Id", "value": "id" }
-]

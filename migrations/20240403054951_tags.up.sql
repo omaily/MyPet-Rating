@@ -4,7 +4,7 @@ UPDATE manga SET variety = 'manga';
 
 CREATE TABLE IF NOT EXISTS tags(
     id BIGINT primary key generated always as identity,
-    title VARCHAR (100) NOT NULL
+    title VARCHAR (100) NOT NULL UNIQUE
 );
 CREATE TABLE IF NOT EXISTS taxonomies(
     title_id INTEGER,
@@ -56,8 +56,13 @@ INSERT INTO taxonomies VALUES (17,8); --// Kokou no Hito
 -- left join tags as c on b.tag_id = c.id
 -- order by a.id;
 
--- select a.id, a.title, ARRAY_AGG(c.title) from manga as a
--- left join taxonomies as b on a.id = b.title_id
--- left join tags as c on b.tag_id = c.id 
--- group by a.id
--- order by a.id;
+--select 
+--    a.id, 
+--    a.title, 
+--    array_remove(ARRAY_AGG(c.title), NULL)
+--from manga as a
+--left join taxonomies as b on a.id = b.title_id
+--left join tags as c on b.tag_id = c.id 
+--where c.title is not null
+--group by a.id
+--order by a.id;

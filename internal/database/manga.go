@@ -58,7 +58,7 @@ func (pg *Storage) ReadIdManga(ctx context.Context, id int) (model.Manga, []stri
 			a.start_d AS start_date,
 			a.finish_d AS finish_date,
 			a.img,
-			ARRAY_AGG(c.title)
+			ARRAY_REMOVE(ARRAY_AGG(c.title), NULL)
 		FROM manga AS a
 		LEFT JOIN taxonomies AS b
 			on a.id = b.title_id

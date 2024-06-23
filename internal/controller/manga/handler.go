@@ -16,8 +16,8 @@ import (
 func HandlersGlobal(router *chi.Mux, storage *database.Storage) {
 	router.HandleFunc("/", defaultRoute())
 	router.Route("/api/manga", func(r chi.Router) {
-		r.Get("/read/{articleID}", readId(storage))
 		r.Get("/read", readParam(storage))
+		r.Get("/read/{articleID}", readId(storage))
 		r.Get("/read/order={order:(id|title|rating|start_d)}", readRegular(storage))
 		r.Post("/create", create(storage))
 		r.Post("/update", update(storage))
@@ -55,7 +55,7 @@ func readId(storage *database.Storage) http.HandlerFunc {
 
 		titleFull := struct {
 			model.Manga
-			Tags []string
+			Tags []string `json:"tags, omitempty"`
 		}{
 			Manga: title,
 			Tags:  arr,
