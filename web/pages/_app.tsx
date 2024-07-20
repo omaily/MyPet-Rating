@@ -1,7 +1,9 @@
 import type { AppProps } from 'next/app';
-import RootLayout from '@/components/Layout';
 import Head from 'next/head'
+
 import "@/styles/global.css";
+import styleMain from "@/styles/Main.module.css";
+import RootLayout from '@/components/mainPage/Layout';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
     <RootLayout>
@@ -9,7 +11,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet" />
             <title>Rating</title>
         </Head>
-        <main>
+        <main className={styleMain.mainContent}>
             <Component {...pageProps} />
         </main>
     </RootLayout>

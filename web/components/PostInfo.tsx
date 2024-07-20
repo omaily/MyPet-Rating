@@ -1,4 +1,4 @@
-import Heading from "./Heading";
+import Heading from "@/components/Heading";
 
 const PostInfo = ({post}:any) => {
   const { title, body } = post || {};

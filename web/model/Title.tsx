@@ -4,7 +4,7 @@ export type Title = {
     title_en: string
     author: string
     rating: number
-    start_d: string
-    finish_d: string | null
+    start_d: Date
+    finish_d: Date | null
     img: string
 };

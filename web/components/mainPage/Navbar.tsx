@@ -5,11 +5,9 @@ import styleNav from '@/styles/Navbar.module.css'
 
 const navigation = [
     {id:1 , path:"/", title:'Home'},
-    {id:2 , path:"/manga", title:'Manga'},
-    {id:3 , path:"/anime", title:'Anime'},
+    {id:2 , path:"/rating/manga", title:'Manga'},
+    {id:3 , path:"/rating/anime", title:'Anime'},
     {id:4 , path:"/characters", title:'Сharacters'},
-    {id:5,  path:'/contacts', title: 'Contacts' },
-    {id:5,  path:'/posts', title: 'Posts' },
     {id:6 , path:"/login", title:'Login'}
 ]
 
